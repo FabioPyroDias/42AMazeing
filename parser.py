@@ -1,5 +1,16 @@
 from errors import InvalidParameterError, InvalidConfigurationError
 
+CONFIG_KEYS = [
+    "WIDTH",
+    "HEIGHT",
+    "ENTRY",
+    "EXIT",
+    "OUTPUT_FILE",
+    "PERFECT"
+    "SEED",
+    "ALGORITHM",
+    "DISPLAY"
+]
 
 def read_config_file(path: str) -> dict:
     try:
@@ -14,3 +25,8 @@ def read_config_file(path: str) -> dict:
     except InvalidConfigurationError:
         print("TODO")
     return None
+
+'''
+Todos estes except vao ter de ser no main.
+Aqui, neste script, so vao haver raises.
+'''
