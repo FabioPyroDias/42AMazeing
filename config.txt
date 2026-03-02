@@ -1,0 +1,26 @@
+#Maze width (number of cells)
+WIDTH=20
+
+#Maze height
+HEIGHT=15
+
+#Entry coordinates (x, y)
+ENTRY=0,0
+
+#Exit coordinates (x, y)
+EXIT=19,14
+
+#Output filename
+OUTPUT_FILE=maze_txt
+
+#Is the maze perfect?
+PERFECT=True
+
+#Nao sei como descrever isto
+SEED=42
+
+#Talvez implemente isto
+ALGORITHM
+
+#Talvez implemente isto
+#DISPLAY
