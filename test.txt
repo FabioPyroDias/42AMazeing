@@ -1,0 +1,17 @@
+#Esta linha tem de ser ignorada
+WIDTH=20
+WIDTH=20#Esta linha e valida
+WIDTH=20 # Esta linha e valida
+ # WIDTH = 20 Esta tem de ser ignorada
+WIDTH!20 #Esta linha vai partir o parser
+---> WIDTH#:20 #Esta linha vai partir o parser (eliminar a de cima)
+#### Nada disto vai ser lido:
+P
+R
+O
+G
+R
+E
+S
+S
+O

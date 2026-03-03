@@ -13,17 +13,35 @@ CONFIG_KEYS = [
 ]
 
 def read_config_file(path: str) -> dict:
-    try:
-        with open(path, 'r') as config:
-            pass
-    except FileNotFoundError:
-        print(f"File {path} not found")
-    except SyntaxError:
-        print("TODO: Nao sei o que isto faz")
-    except InvalidParameterError:
-        print("TODO")
-    except InvalidConfigurationError:
-        print("TODO")
+    with open(path, 'r') as config:
+        line = "!"
+        while line != "":
+            line = config.readline()
+            skip = False
+            for character in line:
+                if not (character == ' ' or character == '\t'):
+                    if character == '#':
+                        skip = True
+                    break
+            if skip:
+                continue
+            arguments = line.split("=")
+            if len(arguments) != 2:
+                raise InvalidConfigurationError("Configuration " \
+                                                "Error: expected " \
+                                                "'Key=Value'")
+            selected_key = None
+            key_index = 0
+            while key_index < len(CONFIG_KEYS):
+                if CONFIG_KEYS[key_index] == arguments[0]:
+                    selected_key = CONFIG_KEYS[key_index]
+                    break
+                key_index += 1
+            if not selected_key:
+                raise InvalidParameterError(f"Parameter Error: " \
+                                            f"{arguments[0]} is invalid")
+            print(line)
+    print("TODO")
     return None
 
 '''
