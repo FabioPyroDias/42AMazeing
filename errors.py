@@ -3,3 +3,6 @@ class InvalidParameterError(Exception):
 
 class InvalidConfigurationError(Exception):
     pass
+
+class InvalidValueError(Exception):
+    pass

@@ -1,5 +1,6 @@
 from parser import read_config_file
 from errors import InvalidParameterError, InvalidConfigurationError
+from errors import InvalidValueError
 
 
 if __name__ == "__main__":
@@ -12,4 +13,6 @@ if __name__ == "__main__":
     except InvalidParameterError as error:
         print(error)
     except InvalidConfigurationError as error:
+        print(error)
+    except InvalidValueError as error:
         print(error)
