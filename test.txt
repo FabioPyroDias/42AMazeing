@@ -1,18 +1,65 @@
 #Esta linha tem de ser ignorada
-WIDTH=20
 
- # WIDTH = !! Esta tem de ser ignorada
-WIDTH=20#Esta linha e valida
-WIDTH=20 # Esta linha e valida
-WIDTH!20 #Esta linha vai partir o parser
----> WIDTH#:20 #Esta linha vai partir o parser (eliminar a de cima)
-#### Nada disto vai ser lido:
-P
-R
-O
-G
-R
-E
-S
-S
-O
+# INTEGER - WIDTH | HEIGHT | SEED
+#Testes validos
+#WIDTH=20
+#WIDTH   =   50
+#     WIDTH = 25   
+#WIDTH=100 #Comentario
+#WIDTH=0#Comentario
+
+#Testes invalidos:
+#WIDTH=
+#WIDTH=#1
+#WIDTH=1 2 3 4 5 6
+#WIDTH=12a34
+#WIDTH12
+#WIDTH=abc
+
+#==================================
+
+# VECTOR2 - ENTRY | EXIT
+#Testes validos
+#ENTRY=25,50
+#    ENTRY =   35,  80
+#ENTRY=15,15#Comentario
+#  ENTRY=12,  12   #Comentario
+#ENTRY=10, 12  #Hello, 14
+#ENTRY=10, 12 #
+#ENTRY=10, 12#,14
+
+#Testes invalidos:
+#ENTRY=
+#ENTRY=15
+#ENTRY=10 20
+#ENTRY15,24
+#ENTRY=10#, 12
+#ENTRY=10,#12
+#ENTRY=10, #12
+#ENTRY=10,1a2
+#ENTRY=10, 12, 14
+#ENTRY=10,
+#ENTRY=,10
+#ENTRY=10,,,12
+#ENTRY=10,12,,,,
+#ENTRY=  ,15
+#ENTRY
+
+#==================================
+
+# BOOLEAN - PERFECT
+#Testes validos
+#PERFECT=True
+#PERFECT=False
+#    PERFECT=     False
+#PERFECT=False#Comentario
+#  PERFECT  = True   #Comentario
+
+#Testes invalidos:
+#PERFECT
+#PERFECT=
+#PERFECT=abc
+#PERFECTTrue
+#PERFECT=false
+#PERFECT=True False
+#PERFECT=TrueFalse

@@ -5,9 +5,10 @@ from errors import InvalidValueError
 
 if __name__ == "__main__":
     try:
-        read_config_file("test.txt")
+        configs = read_config_file("config.txt")
+        print(configs)
     except FileNotFoundError:
-        print(f"File not found")
+        print("File not found")
     except SyntaxError:
         print("TODO: Nao sei o que isto faz")
     except InvalidParameterError as error:

@@ -20,7 +20,7 @@ PERFECT=True
 SEED=42
 
 #Talvez implemente isto
-ALGORITHM
+ALGORITHM=Default
 
 #Talvez implemente isto
-#DISPLAY
+#DISPLAY=ASCII
