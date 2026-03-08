@@ -23,4 +23,4 @@ SEED=42
 ALGORITHM=Default
 
 #Talvez implemente isto
-#DISPLAY=ASCII
+DISPLAY=ASCII

@@ -1,6 +1,9 @@
+from maze_config import MazeConfig
 from errors import InvalidParameterError, InvalidConfigurationError
 from errors import InvalidValueError
 
+
+SIZE_LIMITS = (3, 200)
 
 def parser_integer(key: str, argument: str) -> int:
     try:
@@ -74,6 +77,44 @@ REQUIRED_KEYS = {
 }
 
 
+def validate_configs(configs: dict):
+    width = configs["WIDTH"]
+    if width < SIZE_LIMITS[0]:
+        raise InvalidValueError(f"Value Error: WIDTH must be at least "
+                                f"{SIZE_LIMITS[0]}")
+    if width > SIZE_LIMITS[1]:
+        raise InvalidValueError(f"Value Error: WIDTH must be at most "
+                                f"{SIZE_LIMITS[1]}")
+    height = configs["HEIGHT"]
+    if height < SIZE_LIMITS[0]:
+        raise InvalidValueError(f"Value Error: HEIGHT must be at least "
+                                f"{SIZE_LIMITS[0]}")
+    if height > SIZE_LIMITS[1]:
+        raise InvalidValueError(f"Value Error: HEIGHT must be at most "
+                                f"{SIZE_LIMITS[1]}")
+    entry_point_coord_x, entry_point_coord_y = configs["ENTRY"]
+    if ((entry_point_coord_x < 0 or entry_point_coord_x >= width) or
+        (entry_point_coord_y < 0 or entry_point_coord_y >= height)):
+        raise InvalidValueError(f"Value Error: ENTRY coordinates must be "
+                                f"within 0 and {width - 1} for x and "
+                                f"within 0 and {height - 1} for y")
+    exit_point_coord_x, exit_point_coord_y = configs["EXIT"]
+    if ((exit_point_coord_x < 0 or exit_point_coord_x >= width) or
+        (exit_point_coord_y < 0 or exit_point_coord_y >= height) or
+        (entry_point_coord_x == exit_point_coord_x and
+        entry_point_coord_y == exit_point_coord_y)):
+        raise InvalidValueError(f"Value Error: EXIT coordinates must be "
+                                f"within 0 and {width - 1} for x and "
+                                f"within 0 and {height - 1} for y")
+    seed = configs.get("SEED", None)
+    if seed is None:
+        configs["SEED"] = 42
+    else:
+        if seed < 0 or seed > 4294967295:
+            raise InvalidValueError("Value Error: SEED must be within 0 "
+                                    "and 4294967295")
+
+
 def read_config_file(path: str) -> dict:
     configs = {}
     with open(path, 'r') as config:
@@ -107,4 +148,5 @@ def read_config_file(path: str) -> dict:
     if required_key_counter != len(REQUIRED_KEYS):
         raise InvalidConfigurationError("Configuration Error: "
                                         "missing required keys")
-    return configs
+    validate_configs(configs)
+    return MazeConfig(configs)

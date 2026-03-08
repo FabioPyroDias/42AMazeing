@@ -5,8 +5,8 @@ from errors import InvalidValueError
 
 if __name__ == "__main__":
     try:
-        configs = read_config_file("config.txt")
-        print(configs)
+        maze_config = read_config_file("config.txt")
+        print(maze_config)
     except FileNotFoundError:
         print("File not found")
     except SyntaxError:
