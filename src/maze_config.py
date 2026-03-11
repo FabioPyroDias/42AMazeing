@@ -7,7 +7,7 @@ class MazeConfig:
         self.output = config["OUTPUT_FILE"]
         self.perfect = config["PERFECT"]
         self.seed = config["SEED"]
-        self.algorithm = config.get("ALGORITHM", "Default")
+        self.algorithm = config.get("ALGORITHM", "Prim")
         self.display = config.get("DISPLAY", "ASCII")
 
     def __str__(self) -> str:

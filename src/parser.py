@@ -44,7 +44,7 @@ def parser_boolean(key: str, argument: str):
 
 
 def parser_algorithm(key: str, argument: str):
-    if not (argument == "Default" or argument == "Default2"):
+    if not (argument == "Prim" or argument == "Kruskal"):
         raise InvalidValueError(f"Value Error: {key} expected TODO TODO TODO TODO")
     return argument
 

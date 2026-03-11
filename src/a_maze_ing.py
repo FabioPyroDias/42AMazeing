@@ -1,4 +1,6 @@
 from parser import read_config_file
+from maze import Maze
+from algorithms import prim
 from errors import InvalidParameterError, InvalidConfigurationError
 from errors import InvalidValueError
 
@@ -7,6 +9,8 @@ if __name__ == "__main__":
     try:
         maze_config = read_config_file("config.txt")
         print(maze_config)
+        maze = Maze(maze_config)
+        maze.print_grid()
     except FileNotFoundError:
         print("File not found")
     except SyntaxError:
@@ -17,3 +21,13 @@ if __name__ == "__main__":
         print(error)
     except InvalidValueError as error:
         print(error)
+
+
+
+"""
+ALGORITHMS = {
+    "Prim": prim.generate,
+    "Kruskal": kruskal.generate,
+    "RecursiveBacktracking": recursive_backtracking.generate
+}
+"""
