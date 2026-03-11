@@ -1,6 +1,6 @@
-from maze_config import MazeConfig
-from errors import InvalidParameterError, InvalidConfigurationError
-from errors import InvalidValueError
+from src.maze_config import MazeConfig
+from src.errors import InvalidParameterError, InvalidConfigurationError
+from src.errors import InvalidValueError
 
 
 SIZE_LIMITS = (3, 200)

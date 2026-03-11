@@ -8,7 +8,7 @@ def generate(maze: Maze):
 
     visited = set()
     frontier = []
-    
+
     visited.add(entry)
     neighbours = maze.get_neighbours(entry)
     for neighbour in neighbours:

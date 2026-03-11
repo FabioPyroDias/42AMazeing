@@ -12,10 +12,10 @@ class Maze():
 
     def get_neighbours(self, cell: tuple[int, int]) -> list[int]:
         neighbours = []
-        if cell[0] - 1 > 0:
+        if cell[0] - 1 >= 0:
             neighbours.append((cell[0] - 1, cell[1]))
-        if cell[1] - 1 > 0:
-            neighbours.append((cell[0], cell[1] - 0))
+        if cell[1] - 1 >= 0:
+            neighbours.append((cell[0], cell[1] - 1))
         if cell[0] + 1 < self.width:
             neighbours.append((cell[0] + 1, cell[1]))
         if cell[1] + 1 < self.height:
@@ -24,33 +24,25 @@ class Maze():
 
     def remove_wall(self, current: tuple, neighbour: tuple) -> None:
         if current[0] - neighbour[0] < 0:
-            self.grid[current[0]][current[1]][1] = 0
-            self.grid[neighbour[0]][neighbour[1]][3] = 0
+            self.grid[current[1]][current[0]][1] = 0
+            self.grid[neighbour[1]][neighbour[0]][3] = 0
         elif current[0] - neighbour[0] > 0:
-            self.grid[current[0]][current[1]][3] = 0
-            self.grid[neighbour[0]][neighbour[1]][1] = 0
+            self.grid[current[1]][current[0]][3] = 0
+            self.grid[neighbour[1]][neighbour[0]][1] = 0
         elif current[1] - neighbour[1] < 0:
-            self.grid[current[0]][current[1]][2] = 0
-            self.grid[neighbour[0]][neighbour[1]][0] = 0
+            self.grid[current[1]][current[0]][2] = 0
+            self.grid[neighbour[1]][neighbour[0]][0] = 0
         elif current[1] - neighbour[1] > 0:
-            self.grid[current[0]][current[1]][0] = 0
-            self.grid[neighbour[0]][neighbour[1]][2] = 0
+            self.grid[current[1]][current[0]][0] = 0
+            self.grid[neighbour[1]][neighbour[0]][2] = 0
 
     def print_grid(self) -> None:
         for row in range(self.height):
             for col in range(self.width):
-                value = sum(self.grid[row][col])
-                value = int(value, base=16)
-                print(value, end=" ")
-                col += 1
-            row += 1
+                value = (8 * self.grid[row][col][3] +
+                         4 * self.grid[row][col][2] +
+                         2 * self.grid[row][col][1] +
+                         self.grid[row][col][0])
+                value = hex(value)[2:]
+                print(value , end=" ")
             print()
-
-""" 
-remove_wall()
-get_neighbors()
-open_entry()
-open_exit() """
-
-#N E S W
-#0 0 0 0
