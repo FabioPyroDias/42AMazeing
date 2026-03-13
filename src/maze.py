@@ -5,6 +5,7 @@ class Maze():
         self.entry = configs.entry
         self.exit = configs.exit
         self.seed = configs.seed
+        self.output = configs.output
         self.grid = [
             [[1, 1, 1, 1] for _ in range(self.width)]
             for _ in range(self.height)
