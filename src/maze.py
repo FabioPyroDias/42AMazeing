@@ -44,5 +44,5 @@ class Maze():
                          2 * self.grid[row][col][1] +
                          self.grid[row][col][0])
                 value = hex(value)[2:]
-                print(value , end=" ")
+                print(value, end=" ")
             print()

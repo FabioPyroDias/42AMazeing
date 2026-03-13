@@ -1,8 +1,15 @@
 from src.parser import read_config_file
 from src.maze import Maze
-from src.algorithms import prim
+from src.algorithms import prim, kruskal, recursive_backtracking
 from src.errors import InvalidParameterError, InvalidConfigurationError
 from src.errors import InvalidValueError
+
+
+ALGORITHMS = {
+    "Prim": prim.generate,
+    "Kruskal": kruskal.generate,
+    "DFS": recursive_backtracking.generate
+}
 
 
 if __name__ == "__main__":
@@ -10,7 +17,7 @@ if __name__ == "__main__":
         maze_config = read_config_file("config.txt")
         print(maze_config)
         maze = Maze(maze_config)
-        prim.generate(maze)
+        ALGORITHMS[maze_config.algorithm](maze)
         maze.print_grid()
     except FileNotFoundError:
         print("File not found")
@@ -22,13 +29,5 @@ if __name__ == "__main__":
         print(error)
     except InvalidValueError as error:
         print(error)
-
-
-
-"""
-ALGORITHMS = {
-    "Prim": prim.generate,
-    "Kruskal": kruskal.generate,
-    "RecursiveBacktracking": recursive_backtracking.generate
-}
-"""
+    except KeyError as error:
+        print(f"ALGORITHM not found {error}")

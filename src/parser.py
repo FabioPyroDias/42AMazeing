@@ -5,6 +5,7 @@ from src.errors import InvalidValueError
 
 SIZE_LIMITS = (3, 200)
 
+
 def parser_integer(key: str, argument: str) -> int:
     try:
         value = argument.split("#")
@@ -44,14 +45,15 @@ def parser_boolean(key: str, argument: str):
 
 
 def parser_algorithm(key: str, argument: str):
-    if not (argument == "Prim" or argument == "Kruskal"):
-        raise InvalidValueError(f"Value Error: {key} expected TODO TODO TODO TODO")
+    if not (argument == "Prim" or argument == "Kruskal" or argument == "DFS"):
+        raise InvalidValueError(f"Value Error: {key} expected Prim, Kruskal "
+                                f"or DFS")
     return argument
 
 
 def parser_display(key: str, argument: str):
     if not (argument == "ASCII" or argument == "Graphical"):
-        raise InvalidValueError(f"Value Error: {key} expected TODO TODO TODO TODO")
+        raise InvalidValueError(f"Value Error: {key} expected TODO TODO TODO")
     return argument
 
 
@@ -94,7 +96,7 @@ def validate_configs(configs: dict):
                                 f"{SIZE_LIMITS[1]}")
     entry_point_coord_x, entry_point_coord_y = configs["ENTRY"]
     if ((entry_point_coord_x < 0 or entry_point_coord_x >= width) or
-        (entry_point_coord_y < 0 or entry_point_coord_y >= height)):
+            (entry_point_coord_y < 0 or entry_point_coord_y >= height)):
         raise InvalidValueError(f"Value Error: ENTRY coordinates must be "
                                 f"within 0 and {width - 1} for x and "
                                 f"within 0 and {height - 1} for y")
@@ -102,7 +104,7 @@ def validate_configs(configs: dict):
     if ((exit_point_coord_x < 0 or exit_point_coord_x >= width) or
         (exit_point_coord_y < 0 or exit_point_coord_y >= height) or
         (entry_point_coord_x == exit_point_coord_x and
-        entry_point_coord_y == exit_point_coord_y)):
+            entry_point_coord_y == exit_point_coord_y)):
         raise InvalidValueError(f"Value Error: EXIT coordinates must be "
                                 f"within 0 and {width - 1} for x and "
                                 f"within 0 and {height - 1} for y")

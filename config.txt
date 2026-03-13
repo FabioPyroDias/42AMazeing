@@ -20,7 +20,7 @@ PERFECT=True
 SEED=42
 
 #Talvez implemente isto
-ALGORITHM=Prim
+ALGORITHM=DFS
 
 #Talvez implemente isto
 DISPLAY=ASCII
