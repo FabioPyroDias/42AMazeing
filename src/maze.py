@@ -37,7 +37,7 @@ class Maze():
             self.grid[current[1]][current[0]][0] = 0
             self.grid[neighbour[1]][neighbour[0]][2] = 0
 
-    def print_grid(self) -> None:
+    def print_grid_og(self) -> None:
         for row in range(self.height):
             for col in range(self.width):
                 value = (8 * self.grid[row][col][3] +
@@ -46,4 +46,33 @@ class Maze():
                          self.grid[row][col][0])
                 value = hex(value)[2:]
                 print(value, end=" ")
+            print()
+
+    def print_grid(self) -> None:
+        tiles = {
+            "0": " ",
+            "1": "╴",
+            "2": "╶",
+            "3": "─",
+            "4": "╷",
+            "5": "┐",
+            "6": "┘",
+            "7": "┬",
+            "8": "╵",
+            "9": "┌",
+            "a": "└",
+            "b": "┴",
+            "c": "│",
+            "d": "┤",
+            "e": "├",
+            "f": "┼"
+        }
+        for row in range(self.height):
+            for col in range(self.width):
+                value = (8 * self.grid[row][col][3] +
+                         4 * self.grid[row][col][2] +
+                         2 * self.grid[row][col][1] +
+                         self.grid[row][col][0])
+                value = hex(value)[2:]
+                print(tiles[value], end="")
             print()
