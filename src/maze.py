@@ -40,39 +40,42 @@ class Maze():
     def print_grid_og(self) -> None:
         for row in range(self.height):
             for col in range(self.width):
-                value = (8 * self.grid[row][col][3] +
-                         4 * self.grid[row][col][2] +
-                         2 * self.grid[row][col][1] +
-                         self.grid[row][col][0])
+                value = (8 * self.grid[row][col][0] +
+                         4 * self.grid[row][col][1] +
+                         2 * self.grid[row][col][2] +
+                         self.grid[row][col][3])
                 value = hex(value)[2:]
                 print(value, end=" ")
             print()
 
     def print_grid(self) -> None:
-        tiles = {
-            "0": " ",
-            "1": "╴",
-            "2": "╶",
-            "3": "─",
-            "4": "╷",
-            "5": "┐",
-            "6": "┘",
-            "7": "┬",
-            "8": "╵",
-            "9": "┌",
-            "a": "└",
-            "b": "┴",
-            "c": "│",
-            "d": "┤",
-            "e": "├",
-            "f": "┼"
-        }
+        #Top Border:
+        print(u'\u2588', end="")
+        for col in range(self.width):
+            print(u'\u2588', end="")
+
+
+        """for col in range(self.width):
+            print(u'\u2588'u'\u2588', end="")
+        print(u'\u2588')
         for row in range(self.height):
             for col in range(self.width):
-                value = (8 * self.grid[row][col][3] +
-                         4 * self.grid[row][col][2] +
-                         2 * self.grid[row][col][1] +
-                         self.grid[row][col][0])
-                value = hex(value)[2:]
-                print(tiles[value], end="")
-            print()
+                if self.grid[row][col][0]:
+                    print(u'\u2588', end="")
+                else:
+                    print(" ", end="")
+                print(" ", end="")
+                if col == self.width - 1:
+                    print(u'\u2588')
+            for col in range(self.width):
+                if self.grid[row][col][3]:
+                    print(u'\u2588', end="")
+                else:
+                    print(" ", end="")
+                print(" ", end="")
+                if col == self.width - 1:
+                    print(u'\u2588')
+        for col in range(self.width):
+            print(u'\u2588'u'\u2588', end="")
+        print(u'\u2588') """
+        self.print_grid_og()
