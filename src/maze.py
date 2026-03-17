@@ -49,25 +49,24 @@ class Maze():
             print()
 
     def print_grid(self) -> None:
-        #Top Border:
-        print(u'\u2588', end="")
-        for col in range(self.width):
-            print(u'\u2588', end="")
-
-
-        """for col in range(self.width):
-            print(u'\u2588'u'\u2588', end="")
-        print(u'\u2588')
-        for row in range(self.height):
-            for col in range(self.width):
+        row = 0
+        """ print(f"W: {self.width} | H: {self.height}")
+        print(f"LW: {len(self.grid[0])} | LH: {len(self.grid)}") """
+        while row  < self.height:
+            col = 0
+            while col < self.width:
+                #print(col)
+                print(u'\u2588', end="")
                 if self.grid[row][col][0]:
                     print(u'\u2588', end="")
                 else:
                     print(" ", end="")
-                print(" ", end="")
                 if col == self.width - 1:
                     print(u'\u2588')
-            for col in range(self.width):
+                col += 1
+            col = 0
+            while col < self.width:
+                #print(col)
                 if self.grid[row][col][3]:
                     print(u'\u2588', end="")
                 else:
@@ -75,7 +74,11 @@ class Maze():
                 print(" ", end="")
                 if col == self.width - 1:
                     print(u'\u2588')
-        for col in range(self.width):
-            print(u'\u2588'u'\u2588', end="")
-        print(u'\u2588') """
-        self.print_grid_og()
+                col += 1
+            if row == self.height - 1:
+                col = 0
+                while col < 2 * self.width + 1:
+                    print(u'\u2588', end="")
+                    col += 1
+                print()
+            row += 1
