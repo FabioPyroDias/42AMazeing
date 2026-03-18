@@ -50,12 +50,9 @@ class Maze():
 
     def print_grid(self) -> None:
         row = 0
-        """ print(f"W: {self.width} | H: {self.height}")
-        print(f"LW: {len(self.grid[0])} | LH: {len(self.grid)}") """
         while row  < self.height:
             col = 0
             while col < self.width:
-                #print(col)
                 print(u'\u2588', end="")
                 if self.grid[row][col][0]:
                     print(u'\u2588', end="")
@@ -66,7 +63,6 @@ class Maze():
                 col += 1
             col = 0
             while col < self.width:
-                #print(col)
                 if self.grid[row][col][3]:
                     print(u'\u2588', end="")
                 else:

@@ -10,6 +10,6 @@ def save_file(maze: Maze):
                          2 * maze.grid[row][col][1] +
                          maze.grid[row][col][0])
                 value = hex(value)[2:]
-                file.write(str(value))
+                file.write(str(value), )
             file.write("\n")
     file.close()

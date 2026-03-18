@@ -23,6 +23,28 @@ if __name__ == "__main__":
         ALGORITHMS[maze_config.algorithm](maze)
         maze.print_grid()
         save_file(maze)
+        while (True):
+            print()
+            print("=== A-Maze-ing ===")
+            print("1. Re-generate a new maze")
+            print("2. Show/Hide path from entry to exit")
+            print("3. Rotate maze colors")
+            print("4. Quit")
+            choice = input("Choice? (1-4): ")
+            try:
+                choice = int(choice)
+                if choice < 1 or choice > 4:
+                    raise ValueError("Choice invalid. Please choose between 1-4")
+            except ValueError as error:
+                print(error)
+            if choice == 1:
+                pass
+            elif choice == 2:
+                pass
+            elif choice == 3:
+                pass
+            else:
+                sys.exit()
     except FileNotFoundError:
         print("File not found")
     except SyntaxError:
@@ -35,3 +57,5 @@ if __name__ == "__main__":
         print(error)
     except KeyError as error:
         print(f"ALGORITHM not found {error}")
+    except KeyboardInterrupt as error:
+        print(f"KeyboardInterrupt - Exiting program...")
