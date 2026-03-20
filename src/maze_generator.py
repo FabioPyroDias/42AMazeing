@@ -1,1 +1,2 @@
-class MazeGenerator()
+class MazeGenerator():
+    pass

@@ -5,6 +5,8 @@ from src.algorithms import prim, kruskal, recursive_backtracking
 from src.file_manager import save_file
 from src.errors import InvalidParameterError, InvalidConfigurationError
 from src.errors import InvalidValueError
+import random
+from src.algorithms.breadth_first_search import find_path
 
 
 ALGORITHMS = {
@@ -34,28 +36,33 @@ if __name__ == "__main__":
             try:
                 choice = int(choice)
                 if choice < 1 or choice > 4:
-                    raise ValueError("Choice invalid. Please choose between 1-4")
+                    raise ValueError("Choice invalid. "
+                                     "Please choose between 1-4")
+                if choice == 1:
+                    maze.seed = random.randint(0, 2147483647)
+                    maze.reset()
+                    ALGORITHMS[maze_config.algorithm](maze)
+                    maze.print_grid()
+                elif choice == 2:
+                    print(find_path(maze))
+                elif choice == 3:
+                    pass
+                else:
+                    sys.exit()
             except ValueError as error:
                 print(error)
-            if choice == 1:
-                pass
-            elif choice == 2:
-                pass
-            elif choice == 3:
-                pass
-            else:
-                sys.exit()
     except FileNotFoundError:
         print("File not found")
-    except SyntaxError:
-        print("TODO: Nao sei o que isto faz")
+    except SyntaxError as error:
+        print(error)
     except InvalidParameterError as error:
         print(error)
     except InvalidConfigurationError as error:
         print(error)
     except InvalidValueError as error:
         print(error)
-    except KeyError as error:
+    except (KeyError) as error:
         print(f"ALGORITHM not found {error}")
-    except KeyboardInterrupt as error:
-        print(f"KeyboardInterrupt - Exiting program...")
+    except (KeyboardInterrupt, EOFError):
+        print()
+        print("KeyboardInterrupt - Exiting program...")
