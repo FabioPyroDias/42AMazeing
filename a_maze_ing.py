@@ -23,6 +23,8 @@ if __name__ == "__main__":
         maze_config = read_config_file(sys.argv[1])
         maze = Maze(maze_config)
         ALGORITHMS[maze_config.algorithm](maze)
+        path = find_path(maze)
+        maze.set_path(path)
         maze.print_grid()
         save_file(maze)
         while (True):
@@ -42,9 +44,12 @@ if __name__ == "__main__":
                     maze.seed = random.randint(0, 2147483647)
                     maze.reset()
                     ALGORITHMS[maze_config.algorithm](maze)
+                    path = find_path(maze)
+                    maze.set_path(path)
                     maze.print_grid()
                 elif choice == 2:
-                    print(find_path(maze))
+                    maze.toggle_path()
+                    maze.print_grid()
                 elif choice == 3:
                     pass
                 else:

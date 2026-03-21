@@ -10,6 +10,7 @@ class Maze():
             [[1, 1, 1, 1] for _ in range(self.width)]
             for _ in range(self.height)
         ]
+        self.display_path = False
 
     def remove_wall(self, current: tuple, neighbour: tuple) -> None:
         if current[0] - neighbour[0] < 0:
@@ -49,6 +50,12 @@ class Maze():
             neighbours.append((cell[0] - 1, cell[1]))
         return neighbours
 
+    def toggle_path(self) -> None:
+        self.display_path = not self.display_path
+
+    def set_path(self, path: list) -> None:
+        self.path = path
+
     def print_grid_og(self) -> None:
         for row in range(self.height):
             for col in range(self.width):
@@ -69,7 +76,29 @@ class Maze():
                 if self.grid[row][col][0]:
                     print(u'\u2588', end="")
                 else:
-                    print(" ", end="")
+                    if self.display_path and (col, row) in self.path:
+                        current_index = self.path.index((col, row))
+                        if current_index == 0:
+                            next_cell = self.path[current_index + 1]
+                            if next_cell[1] == row - 1:
+                                print("\033[37;42m \033[0m", end="")
+                            else:
+                                print(" ", end="")
+                        elif current_index == len(self.path) - 1:
+                            previous_cell = self.path[current_index - 1]
+                            if previous_cell[1] == row - 1:
+                                print("\033[37;42m \033[0m", end="")
+                            else:
+                                print(" ", end="")
+                        else:
+                            previous_cell = self.path[current_index - 1]
+                            next_cell = self.path[current_index + 1]
+                            if previous_cell[1] == row - 1 or next_cell[1] == row - 1:
+                                print("\033[37;42m \033[0m", end="")
+                            else:
+                                print(" ", end="")
+                    else:
+                        print(" ", end="")
                 if col == self.width - 1:
                     print(u'\u2588')
                 col += 1
@@ -78,12 +107,35 @@ class Maze():
                 if self.grid[row][col][3]:
                     print(u'\u2588', end="")
                 else:
-                    print(" ", end="")
-
+                    if self.display_path and (col, row) in self.path:
+                        current_index = self.path.index((col, row))
+                        if current_index == 0:
+                            next_cell = self.path[current_index + 1]
+                            if next_cell[0] == col - 1:
+                                print("\033[37;42m \033[0m", end="")
+                            else:
+                                print(" ", end="")
+                        elif current_index == len(self.path) - 1:
+                            previous_cell = self.path[current_index - 1]
+                            if previous_cell[0] == col - 1:
+                                print("\033[37;42m \033[0m", end="")
+                            else:
+                                print(" ", end="")
+                        else:
+                            previous_cell = self.path[current_index - 1]
+                            next_cell = self.path[current_index + 1]
+                            if previous_cell[0] == col - 1 or next_cell[0] == col - 1:
+                                print("\033[37;42m \033[0m", end="")
+                            else:
+                                print(" ", end="")
+                    else:
+                        print(" ", end="")
                 if self.entry[0] == col and self.entry[1] == row:
                     print("\033[37;45m \033[0m", end="")
                 elif self.exit[0] == col and self.exit[1] == row:
                     print("\033[31;41m \033[0m", end="")
+                elif self.display_path and (col, row) in self.path:
+                    print("\033[37;42m \033[0m", end="")
                 else:
                     print(" ", end="")
                 if col == self.width - 1:
