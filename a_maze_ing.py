@@ -51,7 +51,8 @@ if __name__ == "__main__":
                     maze.toggle_path()
                     maze.print_grid()
                 elif choice == 3:
-                    pass
+                    maze.toggle_color()
+                    maze.print_grid()
                 else:
                     sys.exit()
             except ValueError as error:

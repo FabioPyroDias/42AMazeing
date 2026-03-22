@@ -11,6 +11,21 @@ class Maze():
             for _ in range(self.height)
         ]
         self.display_path = False
+        self.colors = {
+            0: {
+                "walls": "\033[97;107m\u2588\033[0m",
+                "entry": "\033[37;45m \033[0m",
+                "exit": "\033[31;41m \033[0m",
+                "path": "\033[37;46m \033[0m"
+            },
+            1: {
+                "walls": "\033[91;41m\u2588\033[0m",
+                "entry": "\033[92;102m \033[0m",
+                "exit": "\033[95;105m \033[0m",
+                "path": "\033[94;104m \033[0m"
+            }
+        }
+        self.current_color = 0
 
     def remove_wall(self, current: tuple, neighbour: tuple) -> None:
         if current[0] - neighbour[0] < 0:
@@ -56,6 +71,10 @@ class Maze():
     def set_path(self, path: list) -> None:
         self.path = path
 
+    def toggle_color(self) -> None:
+        self.current_color += 1
+        self.current_color = self.current_color % len(self.colors)
+
     def print_grid_og(self) -> None:
         for row in range(self.height):
             for col in range(self.width):
@@ -72,79 +91,79 @@ class Maze():
         while row < self.height:
             col = 0
             while col < self.width:
-                print(u'\u2588', end="")
+                print(self.colors[self.current_color]["walls"], end="")
                 if self.grid[row][col][0]:
-                    print(u'\u2588', end="")
+                    print(self.colors[self.current_color]["walls"], end="")
                 else:
                     if self.display_path and (col, row) in self.path:
                         current_index = self.path.index((col, row))
                         if current_index == 0:
                             next_cell = self.path[current_index + 1]
                             if next_cell[1] == row - 1:
-                                print("\033[37;42m \033[0m", end="")
+                                print(self.colors[self.current_color]["path"], end="")
                             else:
                                 print(" ", end="")
                         elif current_index == len(self.path) - 1:
                             previous_cell = self.path[current_index - 1]
                             if previous_cell[1] == row - 1:
-                                print("\033[37;42m \033[0m", end="")
+                                print(self.colors[self.current_color]["path"], end="")
                             else:
                                 print(" ", end="")
                         else:
                             previous_cell = self.path[current_index - 1]
                             next_cell = self.path[current_index + 1]
                             if previous_cell[1] == row - 1 or next_cell[1] == row - 1:
-                                print("\033[37;42m \033[0m", end="")
+                                print(self.colors[self.current_color]["path"], end="")
                             else:
                                 print(" ", end="")
                     else:
                         print(" ", end="")
                 if col == self.width - 1:
-                    print(u'\u2588')
+                    print(self.colors[self.current_color]["walls"])
                 col += 1
             col = 0
             while col < self.width:
                 if self.grid[row][col][3]:
-                    print(u'\u2588', end="")
+                    print(self.colors[self.current_color]["walls"], end="")
                 else:
                     if self.display_path and (col, row) in self.path:
                         current_index = self.path.index((col, row))
                         if current_index == 0:
                             next_cell = self.path[current_index + 1]
                             if next_cell[0] == col - 1:
-                                print("\033[37;42m \033[0m", end="")
+                                print(self.colors[self.current_color]["path"], end="")
                             else:
                                 print(" ", end="")
                         elif current_index == len(self.path) - 1:
                             previous_cell = self.path[current_index - 1]
                             if previous_cell[0] == col - 1:
-                                print("\033[37;42m \033[0m", end="")
+                                print(self.colors[self.current_color]["path"], end="")
                             else:
                                 print(" ", end="")
                         else:
                             previous_cell = self.path[current_index - 1]
                             next_cell = self.path[current_index + 1]
                             if previous_cell[0] == col - 1 or next_cell[0] == col - 1:
-                                print("\033[37;42m \033[0m", end="")
+                                print(self.colors[self.current_color]["path"], end="")
                             else:
                                 print(" ", end="")
                     else:
                         print(" ", end="")
                 if self.entry[0] == col and self.entry[1] == row:
-                    print("\033[37;45m \033[0m", end="")
+                    print(self.colors[self.current_color]["entry"], end="")
                 elif self.exit[0] == col and self.exit[1] == row:
-                    print("\033[31;41m \033[0m", end="")
+                    print(self.colors[self.current_color]["exit"], end="")
                 elif self.display_path and (col, row) in self.path:
-                    print("\033[37;42m \033[0m", end="")
+                    print(self.colors[self.current_color]["path"], end="")
                 else:
                     print(" ", end="")
                 if col == self.width - 1:
-                    print(u'\u2588')
+                    print(self.colors[self.current_color]["walls"])
                 col += 1
             if row == self.height - 1:
                 col = 0
                 while col < 2 * self.width + 1:
-                    print(u'\u2588', end="")
+                    print(self.colors[self.current_color]["walls"], end="")
                     col += 1
                 print()
             row += 1
