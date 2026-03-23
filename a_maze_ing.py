@@ -69,6 +69,8 @@ if __name__ == "__main__":
         print(error)
     except (KeyError) as error:
         print(f"ALGORITHM not found {error}")
+    except ValueError as error:
+        print(error)
     except (KeyboardInterrupt, EOFError):
         print()
         print("KeyboardInterrupt - Exiting program...")

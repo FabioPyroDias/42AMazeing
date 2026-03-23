@@ -1,3 +1,12 @@
+PATTERN_42 = [
+    (-3, -2), (1, -2), (2, -2), (3, -2),
+    (-3, -1), (3, -1),
+    (-3, 0), (-2, 0), (-1, 0), (1, 0), (2, 0), (3, 0),
+    (-1, 1), (1, 1),
+    (-1, 2), (1, 2), (2, 2), (3, 2)
+]
+
+
 class Maze():
     def __init__(self, configs: dict) -> None:
         self.width = configs.width
@@ -10,16 +19,22 @@ class Maze():
             [[1, 1, 1, 1] for _ in range(self.width)]
             for _ in range(self.height)
         ]
+        self.has_pattern = self.width > 10 and self.height > 10
+        self.pattern = [(x + self.width // 2, y + self.height // 2) for x, y in PATTERN_42]
+        if self.has_pattern and (self.entry in self.pattern or self.exit in self.pattern):
+            raise ValueError("Value Error: Entry or Exit in 42 Pattern")
         self.display_path = False
         self.colors = {
             0: {
                 "walls": "\033[97;107m\u2588\033[0m",
+                "42": "\033[90;100m\u2588\033[0m",
                 "entry": "\033[37;45m \033[0m",
                 "exit": "\033[31;41m \033[0m",
                 "path": "\033[37;46m \033[0m"
             },
             1: {
                 "walls": "\033[91;41m\u2588\033[0m",
+                "42": "\033[97;107m\u2588\033[0m",
                 "entry": "\033[92;102m \033[0m",
                 "exit": "\033[95;105m \033[0m",
                 "path": "\033[94;104m \033[0m"
@@ -41,16 +56,32 @@ class Maze():
             self.grid[current[1]][current[0]][0] = 0
             self.grid[neighbour[1]][neighbour[0]][2] = 0
 
-    def get_neighbours(self, cell: tuple[int, int]) -> list[int]:
+    def get_neighbours(self, cell: tuple[int, int]) -> list[tuple[int, int]]:
         neighbours = []
         if cell[0] - 1 >= 0:
-            neighbours.append((cell[0] - 1, cell[1]))
+            if self.has_pattern:
+                if (cell[0] - 1, cell[1]) not in self.pattern:
+                    neighbours.append((cell[0] - 1, cell[1]))
+            else:
+                neighbours.append((cell[0] - 1, cell[1]))
         if cell[1] - 1 >= 0:
-            neighbours.append((cell[0], cell[1] - 1))
+            if self.has_pattern:
+                if (cell[0], cell[1] - 1) not in self.pattern:
+                    neighbours.append((cell[0], cell[1] - 1))
+            else:
+                neighbours.append((cell[0], cell[1] - 1))
         if cell[0] + 1 < self.width:
-            neighbours.append((cell[0] + 1, cell[1]))
+            if self.has_pattern:
+                if (cell[0] + 1, cell[1]) not in self.pattern:
+                    neighbours.append((cell[0] + 1, cell[1]))
+            else:
+                neighbours.append((cell[0] + 1, cell[1]))
         if cell[1] + 1 < self.height:
-            neighbours.append((cell[0], cell[1] + 1))
+            if self.has_pattern:
+                if (cell[0], cell[1] + 1) not in self.pattern:
+                    neighbours.append((cell[0], cell[1] + 1))
+            else:
+                neighbours.append((cell[0], cell[1] + 1))
         return neighbours
 
     def get_connected_neighbours(self, cell: tuple[int, int]) -> list:
@@ -155,6 +186,8 @@ class Maze():
                     print(self.colors[self.current_color]["exit"], end="")
                 elif self.display_path and (col, row) in self.path:
                     print(self.colors[self.current_color]["path"], end="")
+                elif self.has_pattern and (col, row) in self.pattern:
+                    print(self.colors[self.current_color]["42"], end="")
                 else:
                     print(" ", end="")
                 if col == self.width - 1:
