@@ -1,3 +1,6 @@
+import random
+
+
 PATTERN_42 = [
     (-3, -2), (1, -2), (2, -2), (3, -2),
     (-3, -1), (3, -1),
@@ -95,6 +98,35 @@ class Maze():
         if not self.grid[cell[1]][cell[0]][3]:
             neighbours.append((cell[0] - 1, cell[1]))
         return neighbours
+
+    def make_imperfect(self):
+        minimum_walls = 0
+        if self.width <= 5 and self.height <= 5:
+            minimum_walls = 3
+        elif self.width <= 10 and self.height <= 10:
+            minimum_walls = 10
+        else:
+            minimum_walls = 30
+        current_walls = 0
+        for row in range(self.height):
+            for col in range(self.width):
+                if self.has_pattern and (col, row) in self.pattern:
+                    continue
+                current_cell = self.grid[row][col]
+                open_walls = len([wall for wall in current_cell if wall == 0])
+                if open_walls > 2:
+                    continue
+                neighbours = [cell for cell in self.get_neighbours((col, row)) if cell not in self.get_connected_neighbours((col, row))]
+                if len(neighbours) == 0:
+                    continue
+                neighbour = random.choice(neighbours)
+                if current_walls < minimum_walls:
+                    self.remove_wall
+                    current_walls += 1
+                else:
+                    if random.randint(0, 100) < 20:
+                        self.remove_wall((col, row), neighbour)
+
 
     def toggle_path(self) -> None:
         self.display_path = not self.display_path

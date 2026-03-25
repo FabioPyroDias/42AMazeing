@@ -23,6 +23,8 @@ if __name__ == "__main__":
         maze_config = read_config_file(sys.argv[1])
         maze = Maze(maze_config)
         ALGORITHMS[maze_config.algorithm](maze)
+        if not maze_config.perfect:
+            maze.make_imperfect()
         path = find_path(maze)
         maze.set_path(path)
         maze.print_grid()
@@ -44,6 +46,8 @@ if __name__ == "__main__":
                     maze.seed = random.randint(0, 2147483647)
                     maze.reset()
                     ALGORITHMS[maze_config.algorithm](maze)
+                    if not maze_config.perfect:
+                        maze.make_imperfect()
                     path = find_path(maze)
                     maze.set_path(path)
                     maze.print_grid()

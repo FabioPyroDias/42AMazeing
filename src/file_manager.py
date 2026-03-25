@@ -12,6 +12,7 @@ def save_file(maze: Maze):
                 value = hex(value)[2:]
                 file.write(str(value), )
             file.write("\n")
+        file.write("\n")
         file.write(f"{maze.entry[0]}, {maze.entry[1]}\n")
         file.write(f"{maze.exit[0]}, {maze.exit[1]}\n")
         index = 0
@@ -27,4 +28,5 @@ def save_file(maze: Maze):
             elif current_cell[1] - next_cell[1] < 0:
                 file.write("S")
             index += 1
+        file.write("\n")
     file.close()
