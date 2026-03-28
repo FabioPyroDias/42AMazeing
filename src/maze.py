@@ -23,6 +23,11 @@ class Maze():
             for _ in range(self.height)
         ]
         self.has_pattern = self.width > 10 and self.height > 10
+        try:
+            if not self.has_pattern:
+                raise ValueError
+        except ValueError:
+            print("The '42' pattern is omitted. Size does not allow it")
         self.pattern = [(x + self.width // 2, y + self.height // 2) for x, y in PATTERN_42]
         if self.has_pattern and (self.entry in self.pattern or self.exit in self.pattern):
             raise ValueError("Value Error: Entry or Exit in 42 Pattern")

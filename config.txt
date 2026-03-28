@@ -16,11 +16,11 @@ OUTPUT_FILE=maze_txt
 #Is the maze perfect?
 PERFECT=True
 
-#Nao sei como descrever isto
+#Random seed to allow reproducibility
 SEED=42
 
-#Talvez implemente isto
+#Maze generation algorithm to use
 ALGORITHM=Prim
 
-#Talvez implemente isto
+#Output visualization mode
 DISPLAY=ASCII
