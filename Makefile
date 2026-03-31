@@ -1,32 +1,41 @@
+PIP_INSTALL = amazeing/bin/pip install
+PYTHON = amazeing/bin/python
+
+RM = rm -rf
+
+MYPY_FLAGS = -warn-return-any --warn-unused-ignores \
+		--ignore-missing-imports --disallow-untyped-defs \
+		--check-untyped-defs
+
 install:
 	python3 -m venv amazeing
-	amazeing/bin/pip install --upgrade pip
-	amazeing/bin/pip install flake8
-	amazeing/bin/pip install mypy
+	$(PIP_INSTALL) --upgrade pip
+	$(PIP_INSTALL) flake8
+	$(PIP_INSTALL) mypy
 
 run:
-	amazeing/bin/python a_maze_ing.py config.txt
+	$(PYTHON) a_maze_ing.py config.txt
 
 debug:
-	amazeing/bin/python -m pdb a_maze_ing.py config.txt
+	$(PYTHON) -m pdb a_maze_ing.py config.txt
 
 clean:
-	rm -rf src/__pycache__
-	rm -rf src/algorithms/__pycache__
-	rm -rf .mypy_cache
+	$(RM) src/__pycache__
+	$(RM) src/algorithms/__pycache__
+	$(RM) .mypy_cache
 
 lint:
-	amazeing/bin/python -m flake8 a_maze_ing.py
-	amazeing/bin/python -m flake8 src
-	amazeing/bin/python -m mypy a_maze_ing.py --warn-return-any \
-		--warn-unused-ignores --ignore-missing-imports \
-		--disallow-untyped-defs --check-untyped-defs
-	amazeing/bin/python -m mypy src --warn-return-any \
-		--warn-unused-ignores --ignore-missing-imports \
-		--disallow-untyped-defs --check-untyped-defs
+	$(PYTHON) -m flake8 a_maze_ing.py
+	$(PYTHON) -m flake8 src
+	$(PYTHON) -m mypy a_maze_ing.py $(MYPY_FLAGS)
+	$(PYTHON) -m mypy src $(MYPY_FLAGS)
 
 lint-strict:
-	amazeing/bin/python -m flake8 a_maze_ing.py
-	amazeing/bin/python -m flake8 src
-	amazeing/bin/python -m mypy --strict a_maze_ing.py
-	amazeing/bin/python -m mypy --strict src
+	$(PYTHON) -m flake8 a_maze_ing.py
+	$(PYTHON) -m flake8 src
+	$(PYTHON) -m mypy --strict a_maze_ing.py
+	$(PYTHON) -m mypy --strict src
+
+build:
+	$(PIP_INSTALL) build
+	$(PYTHON) -m build --outdir .

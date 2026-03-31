@@ -1,9 +1,8 @@
-from src.maze_config import MazeConfig
 from src.errors import InvalidParameterError, InvalidConfigurationError
 from src.errors import InvalidValueError
 
 
-SIZE_LIMITS = (3, 200)
+SIZE_LIMITS = (3, 30)
 
 
 def parser_integer(key: str, argument: str) -> int:
@@ -151,4 +150,4 @@ def read_config_file(path: str) -> dict:
         raise InvalidConfigurationError("Configuration Error: "
                                         "missing required keys")
     validate_configs(configs)
-    return MazeConfig(configs)
+    return configs

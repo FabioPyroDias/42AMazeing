@@ -1,14 +1,55 @@
-from src.maze import Maze
+from src.maze_generator import MazeGenerator
 import random
+import time
 
 
-def generate(maze: Maze):
+def generate(maze: MazeGenerator):
+    """
+    Generate a maze using the Recursive Backtracking algorithm
+    (Depth-First Search, DFS).
+
+    Starts the recursive carving process from the maze entry point.
+
+    Args:
+        maze (MazeGenerator): The maze instance to be generated.
+
+    Notes:
+        - If animation is enabled (maze.animating), the maze is printed
+          after each wall removal step.
+    """
+
     random.seed(maze.seed)
+    if maze.animating:
+        maze.print_grid()
+        time.sleep(0.05)
+
+    # This set will record the cells already visited, ensuring there's no
+    #   cells visited more than once.
     visited = set()
     carve_path(maze, visited, maze.entry)
 
 
-def carve_path(maze: Maze, visited: set, cell: tuple):
+def carve_path(maze: MazeGenerator, visited: set, cell: tuple):
+    """
+    Recursively carve paths in the maze using Depth-First Search (DFS).
+
+    Starting from the initial cell, randomly visits a neighbouring cell and
+    removes the wall between them.
+    This neighbour becomes the new current cell and the process
+    continues recursively.
+    When a cell has no unvisited neighbours,
+    the algorithm backtracks to the previous cell.
+
+    Args:
+        maze (MazeGenerator): The maze being generated.
+        visited (set): A set of already visited cells.
+        cell (tuple[int, int]): The current cell being processed.
+
+    Notes:
+        - This is a recursive algorithm and may hit recursion limits
+        for very large mazes. Max 30x30
+    """
+
     if cell not in visited:
         visited.add(cell)
         neighbours = maze.get_neighbours(cell)
@@ -16,4 +57,7 @@ def carve_path(maze: Maze, visited: set, cell: tuple):
         for neighbour in neighbours:
             if neighbour not in visited:
                 maze.remove_wall(cell, neighbour)
+                if maze.animating:
+                    maze.print_grid()
+                    time.sleep(0.05)
                 carve_path(maze, visited, neighbour)

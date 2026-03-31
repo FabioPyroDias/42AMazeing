@@ -47,9 +47,10 @@ A menu will appear with a set of actions:
 1. Re-generate maze
 2. Show/Hide path from entry to exit
 3. Rotate maze colors
-4. Quit.
+4. Toggle animation
+5. Quit.
 
-Choose one of these options (1-4) and press `Enter`.
+Choose one of these options (1-5) and press `Enter`.
 
 ## Technical Overview
 
@@ -67,13 +68,12 @@ Lines starting with `#` are commented and ignored.
 | OUTPUT_FILE | Output filename | **str** | maze_txt |
 | PERFECT | Is the maze perfect? | **bolean** | True |
 
-Optional keys (can be used for reproducibility or display preferences):
+Optional keys (can be used for reproducibility):
 
 | Key | Description | Type | Example |
 |:-----|:--------:|------:|:----:|
 | SEED | Random seed to allow reproducibility | **int** | 42 |
 | ALGORITHM | Maze generation algorithm to use | **Prim / Kruskal / DFS** | Prim |
-| DISPLAY | Output visualization mode | **ASCII / Graphical** | ASCII |
 
 A default configuration file `config_file.txt` is included in the repository.
 
