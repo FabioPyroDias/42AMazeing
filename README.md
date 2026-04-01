@@ -230,7 +230,7 @@ maze.generate()
 | Depth First Search (DFS) | Maze Generation | Recursive backtracking that explores as far as possible before backtracking. |
 | Breadth First Search (BFS) | Path Finding | Finds the shortest path from entry to exit. |
 
-### Project Management
+## Project Management
 
 ## Resources
 
