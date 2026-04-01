@@ -1,6 +1,5 @@
 from src.maze_generator import MazeGenerator
 import random
-import time
 
 
 def generate(maze: MazeGenerator):
@@ -19,9 +18,7 @@ def generate(maze: MazeGenerator):
     """
 
     random.seed(maze.seed)
-    if maze.animating:
-        maze.print_grid()
-        time.sleep(0.05)
+    maze.animate()
 
     # This set will record the cells already visited, ensuring there's no
     #   cells visited more than once.
@@ -57,7 +54,5 @@ def carve_path(maze: MazeGenerator, visited: set, cell: tuple):
         for neighbour in neighbours:
             if neighbour not in visited:
                 maze.remove_wall(cell, neighbour)
-                if maze.animating:
-                    maze.print_grid()
-                    time.sleep(0.05)
+                maze.animate()
                 carve_path(maze, visited, neighbour)

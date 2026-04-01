@@ -1,6 +1,5 @@
 from src.maze_generator import MazeGenerator
 import random
-import time
 
 
 def generate(maze: MazeGenerator):
@@ -29,9 +28,7 @@ def generate(maze: MazeGenerator):
     """
 
     random.seed(maze.seed)
-    if maze.animating:
-        maze.print_grid()
-        time.sleep(0.05)
+    maze.animate()
 
     # This set will record the cells already visited, ensuring there's no
     #   cells visited more than once.
@@ -67,6 +64,4 @@ def generate(maze: MazeGenerator):
                 if neighbour not in visited:
                     frontier.append((cell_neighbour, neighbour))
         frontier.remove(chosen_pair)
-        if maze.animating:
-            maze.print_grid()
-            time.sleep(0.05)
+        maze.animate()

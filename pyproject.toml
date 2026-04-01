@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mazegen"
+version = "1.0.0"
+readme = "README_MAZEGEN.md"
+authors = [
+    {name = "fda-cruz"}, 
+    {name = "jreis-de"}
+]
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["mazegen"]
+package-dir = { "mazegen" = "src" }

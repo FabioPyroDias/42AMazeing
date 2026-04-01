@@ -1,6 +1,5 @@
 from src.maze_generator import MazeGenerator
 import random
-import time
 
 
 def generate(maze: MazeGenerator) -> None:
@@ -35,9 +34,7 @@ def generate(maze: MazeGenerator) -> None:
     """
 
     random.seed(maze.seed)
-    if maze.animating:
-        maze.print_grid()
-        time.sleep(0.05)
+    maze.animate()
 
     # This dictionary will store all the connected cells to the current cell.
     # Each cell starts in its own set.
@@ -71,6 +68,4 @@ def generate(maze: MazeGenerator) -> None:
             new_path = pathA.union(pathB)
             for cell in new_path:
                 sets[cell] = new_path
-        if maze.animating:
-            maze.print_grid()
-            time.sleep(0.05)
+        maze.animate()

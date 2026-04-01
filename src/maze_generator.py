@@ -41,7 +41,7 @@ class MazeGenerator():
 
         Args:
             configs (dict): Dictionary containing configuration values such as:
-                WIDTH, HEIGHT, ENTRY, EXIT, SEED, ALGORITHM, etc.
+                WIDTH, HEIGHT, ENTRY, EXIT, SEED, ALGORITHM.
 
         Notes:
             - Default values are used if keys are missing.
@@ -50,14 +50,23 @@ class MazeGenerator():
             - Raises ValueError if entry or exit conflict with the pattern.
         """
 
-        self.width = configs.get("WIDTH", 11)
-        self.height = configs.get("HEIGHT", 11)
-        self.entry = configs.get("ENTRY", (0, 0))
-        self.exit = configs.get("EXIT", (10, 10))
-        self.output = configs.get("OUTPUT_FILE", "maze_txt")
-        self.perfect = configs.get("PERFECT", True)
-        self.seed = configs.get("SEED", 42)
-        self.algorithm = configs.get("ALGORITHM", "Prim")
+        self.config_width = configs.get("WIDTH", 11)
+        self.config_height = configs.get("HEIGHT", 11)
+        self.config_entry = configs.get("ENTRY", (0, 0))
+        self.config_exit = configs.get("EXIT", (10, 10))
+        self.config_output = configs.get("OUTPUT_FILE", "maze_txt")
+        self.config_perfect = configs.get("PERFECT", True)
+        self.config_seed = configs.get("SEED", 42)
+        self.config_algorithm = configs.get("ALGORITHM", "Prim")
+
+        self.width = self.config_width
+        self.height = self.config_height
+        self.entry = self.config_entry
+        self.exit = self.config_exit
+        self.output = self.config_output
+        self.perfect = self.config_perfect
+        self.seed = self.config_seed
+        self.algorithm = self.config_algorithm
 
         self.grid = [
             [[1, 1, 1, 1] for _ in range(self.width)]
@@ -315,7 +324,115 @@ class MazeGenerator():
         """
         Enable or disable animation during maze generation.
         """
+
         self.animating = not self.animating
+
+    def set_speed(self, speed: str) -> None:
+        """
+        Set animation speed
+        """
+
+        if speed == "very slow":
+            self.animation_speed = 0.3
+        elif speed == "slow":
+            self.animation_speed = 0.1
+        elif speed == "normal":
+            self.animation_speed = 0.05
+        elif speed == "fast":
+            self.animation_speed = 0.03
+        elif speed == "very fast":
+            self.animation_speed = 0.01
+
+    def animate(self):
+        """
+        Enacts maze generation animation
+        """
+
+        if self.animating:
+            self.print_grid()
+            time.sleep(self.animation_speed)
+
+    def set_properties(self, properties: dict) -> None:
+        """
+        Overwrites the maze properties.
+        """
+
+        width = properties.get("WIDTH", -1)
+        height = properties.get("HEIGHT", -1)
+
+        if width < 3 or height < 3 or width > 30 or height > 30:
+            raise ValueError("Maze dimensions need to be between 3 and 30")
+        
+        entry = properties.get("ENTRY", (-1, -1))
+        exit = properties.get("EXIT", (-1, -1))
+
+        if not (entry[0] >= 0 and entry[0] < width):
+            raise ValueError("ENTRY coordinates need to within WIDTH "
+                             "range (0-WIDTH)")
+        if not (entry[1] >= 0 and entry[1] < height):
+            raise ValueError("ENTRY coordinates need to within HEIGHT "
+                             "range (0-HEIGHT)")
+        
+        if not (exit[0] >= 0 and exit[0] < width):
+            raise ValueError("EXIT coordinates need to within WIDTH "
+                             "range (0-WIDTH)")
+        if not (exit[1] >= 0 and exit[1] < height):
+            raise ValueError("EXIT coordinates need to within HEIGHT "
+                             "range (0-HEIGHT)")
+
+        if entry[0] == exit[0] and entry[1] == exit[1]:
+            raise ValueError("ENTRY coordinates cannot be "
+                             "the same as EXIT coordinates")
+
+        perfect = properties.get("PERFECT", "Something")
+
+        if perfect == "Something" or perfect not in ["True", "False"]:
+            raise ValueError("PERFECT must be either True or False")
+
+        perfect = perfect == "True"
+
+        algorithm = properties.get("ALGORITHM", "Something")
+
+        if (algorithm == "Something" or
+            algorithm not in ["Prim", "Kruskal", "DFS"]):
+            raise ValueError("ALGORITHM must be either Prim, Kruskal or DFS")
+
+        self.width = width
+        self.height = height
+        self.entry = entry
+        self.exit = exit
+        self.perfect = perfect
+        self.algorithm = algorithm
+        self.seed = 42
+
+        self.grid = [
+            [[1, 1, 1, 1] for _ in range(self.width)]
+            for _ in range(self.height)
+        ]
+
+        self.has_pattern = self.width > 10 and self.height > 10
+        if not self.has_pattern:
+            print("The '42' pattern is omitted. Size does not allow it")
+
+        self.pattern = [(x + self.width // 2, y + self.height // 2) for x, y in PATTERN_42]
+        if self.has_pattern and (self.entry in self.pattern or self.exit in self.pattern):
+            raise ValueError("Value Error: ENTRY or EXIT in 42 Pattern")
+
+        self.generate()
+
+    def reset_properties(self):
+        """
+        Sets the maze properties to the original values of the config file.
+        """
+
+        self.width = self.config_width
+        self.height = self.config_height
+        self.entry = self.config_entry
+        self.exit = self.config_exit
+        self.output = self.config_output
+        self.perfect = self.config_perfect
+        self.seed = self.config_seed
+        self.algorithm = self.config_algorithm
 
     def print_grid(self) -> None:
         """
@@ -520,3 +637,16 @@ class MazeGenerator():
         for row in range(self.height):
             for col in range(self.width):
                 self.grid[row][col] = [1, 1, 1, 1]
+
+    def __str__(self) -> str:
+        """
+        Returns a human-readable string representation of a class object.
+        """
+        return (f"Width: {self.width}\n"
+                f"Height: {self.height}\n"
+                f"Entry: {self.entry}\n"
+                f"Exit: {self.exit}\n"
+                f"Output: {self.output}\n"
+                f"Perfect: {self.perfect}\n"
+                f"Seed: {self.seed}\n"
+                f"Algorithm: {self.algorithm}")

@@ -50,12 +50,6 @@ def parser_algorithm(key: str, argument: str):
     return argument
 
 
-def parser_display(key: str, argument: str):
-    if not (argument == "ASCII" or argument == "Graphical"):
-        raise InvalidValueError(f"Value Error: {key} expected TODO TODO TODO")
-    return argument
-
-
 CONFIG_KEYS = {
     "WIDTH": parser_integer,
     "HEIGHT": parser_integer,
@@ -64,8 +58,7 @@ CONFIG_KEYS = {
     "OUTPUT_FILE": parser_string,
     "PERFECT": parser_boolean,
     "SEED": parser_integer,
-    "ALGORITHM": parser_algorithm,
-    "DISPLAY": parser_display,
+    "ALGORITHM": parser_algorithm
 }
 
 REQUIRED_KEYS = {
@@ -101,12 +94,16 @@ def validate_configs(configs: dict):
                                 f"within 0 and {height - 1} for y")
     exit_point_coord_x, exit_point_coord_y = configs["EXIT"]
     if ((exit_point_coord_x < 0 or exit_point_coord_x >= width) or
-        (exit_point_coord_y < 0 or exit_point_coord_y >= height) or
-        (entry_point_coord_x == exit_point_coord_x and
-            entry_point_coord_y == exit_point_coord_y)):
+            (exit_point_coord_y < 0 or exit_point_coord_y >= height)):
         raise InvalidValueError(f"Value Error: EXIT coordinates must be "
                                 f"within 0 and {width - 1} for x and "
                                 f"within 0 and {height - 1} for y")
+
+    if (entry_point_coord_x == exit_point_coord_x and
+            entry_point_coord_y == exit_point_coord_y):
+        raise InvalidValueError("Value Error: ENTRY coordinates cannot be "
+                                "the same as EXIT coordinates")
+
     seed = configs.get("SEED", None)
     if seed is None:
         configs["SEED"] = 42
