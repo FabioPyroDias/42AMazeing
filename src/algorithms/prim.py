@@ -2,7 +2,7 @@ from src.maze_generator import MazeGenerator
 import random
 
 
-def generate(maze: MazeGenerator):
+def generate(maze: MazeGenerator) -> None:
     """
     Generate a maze using Prim's algorithm.
 

@@ -1,5 +1,6 @@
 from src.errors import InvalidParameterError, InvalidConfigurationError
 from src.errors import InvalidValueError
+from typing import Any
 
 
 SIZE_LIMITS = (3, 30)
@@ -10,13 +11,13 @@ def parser_integer(key: str, argument: str) -> int:
         value = argument.split("#")
         if len(value[0]) == 0:
             raise InvalidValueError(f"Value Error: {key} needs to have value")
-        value = int(value[0])
-        return value
+        value0 = int(value[0])
+        return value0
     except ValueError:
         raise InvalidValueError(f"Value Error: {key} expected integer")
 
 
-def parser_vector2(key: str, argument: str):
+def parser_vector2(key: str, argument: str) -> tuple[int, int]:
     try:
         values = argument.split("#")
         values = values[0].split(",")
@@ -29,21 +30,21 @@ def parser_vector2(key: str, argument: str):
                                 f"split by \',\'")
 
 
-def parser_string(key: str, argument: str):
+def parser_string(key: str, argument: str) -> str:
     if not argument:
         raise InvalidValueError(f"Value Error: {key} expected argument")
     return argument
 
 
-def parser_boolean(key: str, argument: str):
+def parser_boolean(key: str, argument: str) -> bool:
     value = argument.split("#")
-    value = value[0].strip()
-    if not (value == "True" or value == "False"):
+    value0 = value[0].strip()
+    if not (value0 == "True" or value0 == "False"):
         raise InvalidValueError(f"Value Error: {key} expected bool")
-    return value == "True"
+    return value0 == "True"
 
 
-def parser_algorithm(key: str, argument: str):
+def parser_algorithm(key: str, argument: str) -> str:
     if not (argument == "Prim" or argument == "Kruskal" or argument == "DFS"):
         raise InvalidValueError(f"Value Error: {key} expected Prim, Kruskal "
                                 f"or DFS")
@@ -71,7 +72,7 @@ REQUIRED_KEYS = {
 }
 
 
-def validate_configs(configs: dict):
+def validate_configs(configs: dict[str, Any]) -> None:
     width = configs["WIDTH"]
     if width < SIZE_LIMITS[0]:
         raise InvalidValueError(f"Value Error: WIDTH must be at least "
@@ -113,7 +114,7 @@ def validate_configs(configs: dict):
                                     "and 4294967295")
 
 
-def read_config_file(path: str) -> dict:
+def read_config_file(path: str) -> dict[str, Any]:
     configs = {}
     with open(path, 'r') as config:
         for line in config:
@@ -140,8 +141,8 @@ def read_config_file(path: str) -> dict:
         config.close()
     required_key_counter = 0
     for key in REQUIRED_KEYS:
-        for config in configs:
-            if key == config:
+        for configuration in configs:
+            if key == configuration:
                 required_key_counter += 1
     if required_key_counter != len(REQUIRED_KEYS):
         raise InvalidConfigurationError("Configuration Error: "

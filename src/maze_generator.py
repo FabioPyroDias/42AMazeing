@@ -1,6 +1,7 @@
 import os
 import random
 import time
+from typing import Any
 
 
 PATTERN_42 = [
@@ -35,7 +36,7 @@ class MazeGenerator():
         animating (bool): Whether generation is animated.
     """
 
-    def __init__(self, configs: dict) -> None:
+    def __init__(self, configs: dict[str, Any]) -> None:
         """
         Initialize the maze generator with configuration parameters.
 
@@ -77,9 +78,11 @@ class MazeGenerator():
         if not self.has_pattern:
             print("The '42' pattern is omitted. Size does not allow it")
 
-        #Changing 42 pattern coordinates to center it
-        self.pattern = [(x + self.width // 2, y + self.height // 2) for x, y in PATTERN_42]
-        if self.has_pattern and (self.entry in self.pattern or self.exit in self.pattern):
+        # Changing 42 pattern coordinates to center it
+        self.pattern = [(x + self.width // 2, y + self.height // 2)
+                        for x, y in PATTERN_42]
+        if self.has_pattern and (
+                self.entry in self.pattern or self.exit in self.pattern):
             raise ValueError("Value Error: Entry or Exit in 42 Pattern")
 
         self.display_path = False
@@ -167,7 +170,8 @@ class MazeGenerator():
             self.display_path = False
         self.generate()
 
-    def remove_wall(self, current: tuple, neighbour: tuple) -> None:
+    def remove_wall(self, current: tuple[int, int],
+                    neighbour: tuple[int, int]) -> None:
         """
         Remove the wall between two adjacent cells.
 
@@ -237,7 +241,8 @@ class MazeGenerator():
                 neighbours.append((cell[0], cell[1] + 1))
         return neighbours
 
-    def get_connected_neighbours(self, cell: tuple[int, int]) -> list:
+    def get_connected_neighbours(self, cell: tuple[int, int]
+                                 ) -> list[tuple[int, int]]:
         """
         Return neighbouring cells that are directly connected
             (no wall between).
@@ -260,7 +265,7 @@ class MazeGenerator():
             neighbours.append((cell[0] - 1, cell[1]))
         return neighbours
 
-    def make_imperfect(self):
+    def make_imperfect(self) -> None:
         """
         Introduce loops into the maze by removing additional walls.
 
@@ -287,7 +292,11 @@ class MazeGenerator():
                     continue
                 # Get all the neighbours and only those who are not connected
                 # to the current cell are considered
-                neighbours = [cell for cell in self.get_neighbours((col, row)) if cell not in self.get_connected_neighbours((col, row))]
+                neighbours = [
+                    cell
+                    for cell in self.get_neighbours((col, row))
+                    if cell not in self.get_connected_neighbours(
+                        (col, row))]
                 if len(neighbours) == 0:
                     continue
                 neighbour = random.choice(neighbours)
@@ -343,7 +352,7 @@ class MazeGenerator():
         elif speed == "very fast":
             self.animation_speed = 0.01
 
-    def animate(self):
+    def animate(self) -> None:
         """
         Enacts maze generation animation
         """
@@ -352,7 +361,7 @@ class MazeGenerator():
             self.print_grid()
             time.sleep(self.animation_speed)
 
-    def set_properties(self, properties: dict) -> None:
+    def set_properties(self, properties: dict[str, Any]) -> None:
         """
         Overwrites the maze properties.
         """
@@ -362,7 +371,7 @@ class MazeGenerator():
 
         if width < 3 or height < 3 or width > 30 or height > 30:
             raise ValueError("Maze dimensions need to be between 3 and 30")
-        
+
         entry = properties.get("ENTRY", (-1, -1))
         exit = properties.get("EXIT", (-1, -1))
 
@@ -372,7 +381,7 @@ class MazeGenerator():
         if not (entry[1] >= 0 and entry[1] < height):
             raise ValueError("ENTRY coordinates need to within HEIGHT "
                              "range (0-HEIGHT)")
-        
+
         if not (exit[0] >= 0 and exit[0] < width):
             raise ValueError("EXIT coordinates need to within WIDTH "
                              "range (0-WIDTH)")
@@ -394,7 +403,7 @@ class MazeGenerator():
         algorithm = properties.get("ALGORITHM", "Something")
 
         if (algorithm == "Something" or
-            algorithm not in ["Prim", "Kruskal", "DFS"]):
+                algorithm not in ["Prim", "Kruskal", "DFS"]):
             raise ValueError("ALGORITHM must be either Prim, Kruskal or DFS")
 
         self.width = width
@@ -414,13 +423,15 @@ class MazeGenerator():
         if not self.has_pattern:
             print("The '42' pattern is omitted. Size does not allow it")
 
-        self.pattern = [(x + self.width // 2, y + self.height // 2) for x, y in PATTERN_42]
-        if self.has_pattern and (self.entry in self.pattern or self.exit in self.pattern):
+        self.pattern = [(x + self.width // 2, y + self.height // 2)
+                        for x, y in PATTERN_42]
+        if self.has_pattern and (
+                self.entry in self.pattern or self.exit in self.pattern):
             raise ValueError("Value Error: ENTRY or EXIT in 42 Pattern")
 
         self.generate()
 
-    def reset_properties(self):
+    def reset_properties(self) -> None:
         """
         Sets the maze properties to the original values of the config file.
         """
@@ -433,6 +444,23 @@ class MazeGenerator():
         self.perfect = self.config_perfect
         self.seed = self.config_seed
         self.algorithm = self.config_algorithm
+
+        self.grid = [
+            [[1, 1, 1, 1] for _ in range(self.width)]
+            for _ in range(self.height)
+        ]
+
+        self.has_pattern = self.width > 10 and self.height > 10
+        if not self.has_pattern:
+            print("The '42' pattern is omitted. Size does not allow it")
+
+        self.pattern = [(x + self.width // 2, y + self.height // 2)
+                        for x, y in PATTERN_42]
+        if self.has_pattern and (
+                self.entry in self.pattern or self.exit in self.pattern):
+            raise ValueError("Value Error: ENTRY or EXIT in 42 Pattern")
+
+        self.generate()
 
     def print_grid(self) -> None:
         """
@@ -530,7 +558,9 @@ class MazeGenerator():
                         if current_index == 0:
                             next_cell = self.path[current_index + 1]
                             if next_cell[1] == row - 1:
-                                print(self.colors[self.current_color]["path"], end="")
+                                print(
+                                    self.colors[self.current_color]["path"],
+                                    end="")
                             else:
                                 # Since the wall is open, even if it isn't
                                 # connected to the path, there needs to
@@ -541,7 +571,9 @@ class MazeGenerator():
                         elif current_index == len(self.path) - 1:
                             previous_cell = self.path[current_index - 1]
                             if previous_cell[1] == row - 1:
-                                print(self.colors[self.current_color]["path"], end="")
+                                print(
+                                    self.colors[self.current_color]["path"],
+                                    end="")
                             else:
                                 # Since the wall is open, even if it isn't
                                 # connected to the path, there needs to
@@ -553,8 +585,11 @@ class MazeGenerator():
                         else:
                             previous_cell = self.path[current_index - 1]
                             next_cell = self.path[current_index + 1]
-                            if previous_cell[1] == row - 1 or next_cell[1] == row - 1:
-                                print(self.colors[self.current_color]["path"], end="")
+                            if previous_cell[1] == row - \
+                                    1 or next_cell[1] == row - 1:
+                                print(
+                                    self.colors[self.current_color]["path"],
+                                    end="")
                             else:
                                 # Since the wall is open, even if it isn't
                                 # connected to the path, there needs to
@@ -584,20 +619,27 @@ class MazeGenerator():
                         if current_index == 0:
                             next_cell = self.path[current_index + 1]
                             if next_cell[0] == col - 1:
-                                print(self.colors[self.current_color]["path"], end="")
+                                print(
+                                    self.colors[self.current_color]["path"],
+                                    end="")
                             else:
                                 print(" ", end="")
                         elif current_index == len(self.path) - 1:
                             previous_cell = self.path[current_index - 1]
                             if previous_cell[0] == col - 1:
-                                print(self.colors[self.current_color]["path"], end="")
+                                print(
+                                    self.colors[self.current_color]["path"],
+                                    end="")
                             else:
                                 print(" ", end="")
                         else:
                             previous_cell = self.path[current_index - 1]
                             next_cell = self.path[current_index + 1]
-                            if previous_cell[0] == col - 1 or next_cell[0] == col - 1:
-                                print(self.colors[self.current_color]["path"], end="")
+                            if previous_cell[0] == col - \
+                                    1 or next_cell[0] == col - 1:
+                                print(
+                                    self.colors[self.current_color]["path"],
+                                    end="")
                             else:
                                 print(" ", end="")
                     else:
@@ -629,7 +671,7 @@ class MazeGenerator():
                 print()
             row += 1
 
-    def reset(self):
+    def reset(self) -> None:
         """
         Reset the maze grid to its initial state (all walls intact).
         """

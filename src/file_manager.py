@@ -1,7 +1,7 @@
 from src.maze_generator import MazeGenerator
 
 
-def save_file(maze: MazeGenerator):
+def save_file(maze: MazeGenerator) -> None:
     """
     Save the generated maze to a file using the required output format.
 
@@ -36,8 +36,8 @@ def save_file(maze: MazeGenerator):
                          4 * maze.grid[row][col][2] +
                          2 * maze.grid[row][col][1] +
                          maze.grid[row][col][0])
-                value = hex(value)[2:]
-                file.write(str(value))
+                value_hex = hex(value)[2:]
+                file.write(str(value_hex))
             file.write("\n")
         file.write("\n")
         # Write both maze entry and maze exit coordinates.

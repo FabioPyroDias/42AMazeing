@@ -26,9 +26,9 @@ if __name__ == "__main__":
             print("7. Get maze properties")
             print("8. Help")
             print("9. Quit")
-            choice = input("Choice? (1-9): ")
+            choice_str = input("Choice? (1-9): ")
             try:
-                choice = int(choice)
+                choice = int(choice_str)
                 if choice < 0 or choice > 9:
                     raise ValueError("Choice invalid. "
                                      "Please choose between 1-9")

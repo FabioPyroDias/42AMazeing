@@ -3,7 +3,7 @@ PYTHON = amazeing/bin/python
 
 RM = rm -rf
 
-MYPY_FLAGS = -warn-return-any --warn-unused-ignores \
+MYPY_FLAGS = --warn-return-any --warn-unused-ignores \
 		--ignore-missing-imports --disallow-untyped-defs \
 		--check-untyped-defs
 

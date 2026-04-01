@@ -2,7 +2,7 @@ from src.maze_generator import MazeGenerator
 import random
 
 
-def generate(maze: MazeGenerator):
+def generate(maze: MazeGenerator) -> None:
     """
     Generate a maze using the Recursive Backtracking algorithm
     (Depth-First Search, DFS).
@@ -22,11 +22,12 @@ def generate(maze: MazeGenerator):
 
     # This set will record the cells already visited, ensuring there's no
     #   cells visited more than once.
-    visited = set()
+    visited: set[tuple[int, int]] = set()
     carve_path(maze, visited, maze.entry)
 
 
-def carve_path(maze: MazeGenerator, visited: set, cell: tuple):
+def carve_path(maze: MazeGenerator, visited: set[tuple[int, int]],
+               cell: tuple[int, int]) -> None:
     """
     Recursively carve paths in the maze using Depth-First Search (DFS).
 

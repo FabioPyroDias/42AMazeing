@@ -82,3 +82,4 @@ def find_path(maze: MazeGenerator) -> list[tuple[int, int]]:
                     previous = current_cell
                 path.reverse()
                 return path
+    return [(0, 0)]
