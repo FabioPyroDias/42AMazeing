@@ -63,9 +63,11 @@ def generate(maze: MazeGenerator) -> None:
     for current, neighbour in walls:
         pathA = sets[current]
         pathB = sets[neighbour]
-        if pathA is not pathB:
-            maze.remove_wall(current, neighbour)
-            new_path = pathA.union(pathB)
-            for cell in new_path:
-                sets[cell] = new_path
-        maze.animate()
+        if maze.has_pattern:
+            if current not in maze.pattern and neighbour not in maze.pattern:
+                if pathA is not pathB:
+                    maze.remove_wall(current, neighbour)
+                    new_path = pathA.union(pathB)
+                    for cell in new_path:
+                        sets[cell] = new_path
+                maze.animate()
